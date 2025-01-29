@@ -2,6 +2,7 @@ package com.mate.bookstore.repository;
 
 import com.mate.bookstore.model.Book;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -44,5 +45,13 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> findAll() {
         Session session = sessionFactory.openSession();
         return session.createQuery("from Book").list();
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Book book = session.get(Book.class, id);
+            return book != null ? Optional.of(book) : Optional.empty();
+        }
     }
 }
