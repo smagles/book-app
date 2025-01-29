@@ -1,11 +1,13 @@
 package com.mate.bookstore.service;
 
-import com.mate.bookstore.model.Book;
+import com.mate.bookstore.dto.BookDto;
+import com.mate.bookstore.dto.CreateBookRequestDto;
 import java.util.List;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto requestDto);
 
-    List<Book> findAll();
+    List<BookDto> findAll();
 
+    BookDto findById(Long id);
 }
