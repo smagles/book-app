@@ -10,6 +10,7 @@ import com.mate.bookstore.repository.BookRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +38,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Book book = getBookById(id);
         bookRepository.delete(book);
     }
 
     @Override
+    @Transactional
     public BookDto update(Long id, UpdateBookRequestDto updateRequestDto) {
         Book existingBook = getBookById(id);
         bookMapper.updateModel(updateRequestDto, existingBook);
