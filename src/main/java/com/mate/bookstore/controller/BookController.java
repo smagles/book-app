@@ -1,6 +1,7 @@
 package com.mate.bookstore.controller;
 
 import com.mate.bookstore.dto.BookDto;
+import com.mate.bookstore.dto.BookSearchParametersDto;
 import com.mate.bookstore.dto.CreateBookRequestDto;
 import com.mate.bookstore.dto.UpdateBookRequestDto;
 import com.mate.bookstore.service.BookService;
@@ -53,5 +54,11 @@ public class BookController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable Long id) {
         bookService.deleteById(id);
+    }
+
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        return bookService.searchBooks(searchParameters);
     }
 }
