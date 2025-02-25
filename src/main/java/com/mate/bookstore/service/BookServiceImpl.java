@@ -59,6 +59,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        validateSearchParameters(searchParameters);
+
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(searchParameters);
         return bookRepository.findAll(bookSpecification)
                 .stream()
@@ -69,5 +71,11 @@ public class BookServiceImpl implements BookService {
     private Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Book not found with id " + id));
+    }
+
+    private void validateSearchParameters(BookSearchParametersDto searchParameters) {
+        if (searchParameters == null) {
+            throw new IllegalArgumentException("Search parameters cannot be null");
+        }
     }
 }
