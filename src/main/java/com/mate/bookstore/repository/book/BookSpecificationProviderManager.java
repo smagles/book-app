@@ -1,5 +1,6 @@
 package com.mate.bookstore.repository.book;
 
+import com.mate.bookstore.exception.SpecificationNotFoundException;
 import com.mate.bookstore.model.Book;
 import com.mate.bookstore.repository.SpecificationProvider;
 import com.mate.bookstore.repository.SpecificationProviderManager;
@@ -18,7 +19,6 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
         return specificationProviders.stream()
                 .filter(p -> p.getKey().equals(key))
                 .findFirst()
-                .orElseThrow(() ->
-                        new RuntimeException("Cannot find specification provider for key: " + key));
+                .orElseThrow(() -> new SpecificationNotFoundException(key));
     }
 }
