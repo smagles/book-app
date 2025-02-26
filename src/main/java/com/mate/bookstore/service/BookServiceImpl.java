@@ -1,14 +1,17 @@
 package com.mate.bookstore.service;
 
 import com.mate.bookstore.dto.BookDto;
+import com.mate.bookstore.dto.BookSearchParametersDto;
 import com.mate.bookstore.dto.CreateBookRequestDto;
 import com.mate.bookstore.dto.UpdateBookRequestDto;
 import com.mate.bookstore.exception.EntityNotFoundException;
 import com.mate.bookstore.mapper.BookMapper;
 import com.mate.bookstore.model.Book;
-import com.mate.bookstore.repository.BookRepository;
+import com.mate.bookstore.repository.book.BookRepository;
+import com.mate.bookstore.repository.book.BookSpecificationBuilder;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
@@ -53,9 +57,25 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toBookDto(existingBook);
     }
 
+    @Override
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        validateSearchParameters(searchParameters);
+
+        Specification<Book> bookSpecification = bookSpecificationBuilder.build(searchParameters);
+        return bookRepository.findAll(bookSpecification)
+                .stream()
+                .map(bookMapper::toBookDto)
+                .toList();
+    }
+
     private Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Book not found with id " + id));
     }
-}
 
+    private void validateSearchParameters(BookSearchParametersDto searchParameters) {
+        if (searchParameters == null) {
+            throw new IllegalArgumentException("Search parameters cannot be null");
+        }
+    }
+}
