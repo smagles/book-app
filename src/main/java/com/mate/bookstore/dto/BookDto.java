@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class BookDto {
+    @NotNull(message = "ID is required")
     private Long id;
 
     @NotBlank(message = "Title is required")
@@ -16,7 +17,7 @@ public class BookDto {
     @NotBlank(message = "Author is required")
     private String author;
 
-    @NotBlank(message = "isbn is required")
+    @NotBlank(message = "ISBN is required")
     private String isbn;
 
     @NotNull(message = "Price is required")
