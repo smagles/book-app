@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public record CreateBookRequestDto(
         @NotBlank(message = "Title is required") String title,
         @NotBlank(message = "Author is required") String author,
-        String isbn,
+        @NotBlank(message = "isbn is required") String isbn,
         @NotNull(message = "Price is required")
         @Positive(message = "Price must be positive") BigDecimal price,
         String description,
