@@ -4,6 +4,7 @@ import com.mate.bookstore.dto.BookDto;
 import com.mate.bookstore.dto.BookSearchParametersDto;
 import com.mate.bookstore.dto.CreateBookRequestDto;
 import com.mate.bookstore.dto.UpdateBookRequestDto;
+import com.mate.bookstore.exception.DuplicateIsbnException;
 import com.mate.bookstore.exception.EntityNotFoundException;
 import com.mate.bookstore.mapper.BookMapper;
 import com.mate.bookstore.model.Book;
@@ -11,6 +12,7 @@ import com.mate.bookstore.repository.book.BookRepository;
 import com.mate.bookstore.repository.book.BookSpecificationBuilder;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +26,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
+        validateIsbn(createBookRequestDto.isbn());
         Book book = bookMapper.toModel(createBookRequestDto);
         book = bookRepository.save(book);
         return bookMapper.toBookDto(book);
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll().stream()
+    public List<BookDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toBookDto)
                 .toList();
     }
@@ -58,11 +61,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters,
+                                     Pageable pageable) {
         validateSearchParameters(searchParameters);
 
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(searchParameters);
-        return bookRepository.findAll(bookSpecification)
+        return bookRepository.findAll(bookSpecification, pageable)
                 .stream()
                 .map(bookMapper::toBookDto)
                 .toList();
@@ -76,6 +80,12 @@ public class BookServiceImpl implements BookService {
     private void validateSearchParameters(BookSearchParametersDto searchParameters) {
         if (searchParameters == null) {
             throw new IllegalArgumentException("Search parameters cannot be null");
+        }
+    }
+
+    private void validateIsbn(String isbn) {
+        if (bookRepository.existsByIsbn(isbn)) {
+            throw new DuplicateIsbnException();
         }
     }
 }
