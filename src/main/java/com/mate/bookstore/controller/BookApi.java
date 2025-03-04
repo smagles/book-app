@@ -36,7 +36,7 @@ public interface BookApi {
                     schema = @Schema(implementation = BookDto.class)))
     @ApiResponse(responseCode = "400", description = "Validation error")
     @ApiResponse(responseCode = "409", description = "Duplicate ISBN")
-    BookDto createBook(@RequestBody CreateBookRequestDto createBookRequestDto);
+    BookDto createBook(@RequestBody @Valid CreateBookRequestDto createBookRequestDto);
 
     @Operation(summary = "Update a book", description = "Updates an existing book by ID")
     @ApiResponse(responseCode = "200", description = "Book updated",

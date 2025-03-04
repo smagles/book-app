@@ -25,6 +25,7 @@ public class BookServiceImpl implements BookService {
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
+    @Transactional
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
         validateIsbn(createBookRequestDto.isbn());
         Book book = bookMapper.toModel(createBookRequestDto);
