@@ -8,6 +8,9 @@ import com.mate.bookstore.service.BookService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/books")
-public class BookController {
+public class BookController implements BookApi {
     private final BookService bookService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAll() {
-        return bookService.findAll();
+    public List<BookDto> getAll(@PageableDefault(page = 0, size = 10,
+            sort = "title", direction = Sort.Direction.ASC) Pageable pageable) {
+        return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
@@ -58,7 +62,8 @@ public class BookController {
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
-        return bookService.searchBooks(searchParameters);
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters,
+                                     @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return bookService.searchBooks(searchParameters, pageable);
     }
 }
