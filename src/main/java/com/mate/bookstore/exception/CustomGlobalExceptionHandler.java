@@ -25,34 +25,33 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             HttpStatusCode status,
             WebRequest request) {
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
-        body.put("errors", ex.getBindingResult().getAllErrors().stream()
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("timestamp", LocalDateTime.now());
+        responseBody.put("status", HttpStatus.BAD_REQUEST.value());
+        responseBody.put("errors", ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
                 .toList());
 
-        return new ResponseEntity<>(body, headers, status);
+        return new ResponseEntity<>(responseBody, headers, status);
     }
 
     @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class})
     public ResponseEntity<Object> handleEntityNotFoundException(RuntimeException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.NOT_FOUND);
-        body.put("error", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DuplicateIsbnException.class)
     public ResponseEntity<Object> handleDuplicateIsbnException(DuplicateIsbnException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.CONFLICT);
-        body.put("error", ex.getMessage());
+        return buildResponseEntity(HttpStatus.CONFLICT, ex.getMessage());
+    }
 
-        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    private ResponseEntity<Object> buildResponseEntity(HttpStatus status, Object error) {
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("timestamp", LocalDateTime.now());
+        responseBody.put("status", status.value());
+        responseBody.put("error", error);
+
+        return new ResponseEntity<>(responseBody, status);
     }
 
     private String getErrorMessage(ObjectError error) {
@@ -64,4 +63,3 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return error.getDefaultMessage();
     }
 }
-
