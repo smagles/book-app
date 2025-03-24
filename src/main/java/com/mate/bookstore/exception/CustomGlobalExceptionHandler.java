@@ -3,6 +3,7 @@ package com.mate.bookstore.exception;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -41,7 +42,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler({DuplicateIsbnException.class, RegistrationException.class})
-    public ResponseEntity<Object> handleDuplicateIsbnException(RuntimeException ex) {
+    public ResponseEntity<Object> handleConflictExceptions(RuntimeException ex) {
         return buildResponseEntity(HttpStatus.CONFLICT, ex.getMessage());
     }
 
