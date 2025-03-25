@@ -37,11 +37,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class})
     public ResponseEntity<Object> handleEntityNotFoundException(RuntimeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return buildResponseEntity(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(DuplicateIsbnException.class)
-    public ResponseEntity<Object> handleDuplicateIsbnException(DuplicateIsbnException ex) {
+    @ExceptionHandler({DuplicateIsbnException.class, RegistrationException.class})
+    public ResponseEntity<Object> handleConflictExceptions(RuntimeException ex) {
         return buildResponseEntity(HttpStatus.CONFLICT, ex.getMessage());
     }
 
@@ -50,7 +50,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         responseBody.put("timestamp", LocalDateTime.now());
         responseBody.put("status", status.value());
         responseBody.put("error", error);
-
         return new ResponseEntity<>(responseBody, status);
     }
 
