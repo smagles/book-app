@@ -7,11 +7,13 @@ import com.mate.bookstore.mapper.UserMapper;
 import com.mate.bookstore.model.User;
 import com.mate.bookstore.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -24,12 +26,15 @@ public class AuthServiceImpl implements AuthService {
         User newUser = userMapper.toModel(userRegistrationRequestDto);
         newUser = userRepository.save(newUser);
 
+        log.info("Successfully registered user with Email: {}", newUser.getEmail());
         return userMapper.toDto(newUser);
     }
 
     private void validateRegistration(UserRegistrationRequestDto userRegistrationRequestDto) {
         if (userRepository.findByEmail(userRegistrationRequestDto.email()).isPresent()) {
-            throw new RegistrationException("User already exists");
+            throw new RegistrationException("User with email "
+                    + userRegistrationRequestDto.email()
+                    + " already exists");
         }
     }
 }
