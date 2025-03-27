@@ -8,6 +8,7 @@ import com.mate.bookstore.model.User;
 import com.mate.bookstore.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -24,6 +26,7 @@ public class AuthServiceImpl implements AuthService {
         validateRegistration(userRegistrationRequestDto);
 
         User newUser = userMapper.toModel(userRegistrationRequestDto);
+        newUser.setPassword(passwordEncoder.encode(userRegistrationRequestDto.password()));
         newUser = userRepository.save(newUser);
 
         log.info("Successfully registered user with Email: {}", newUser.getEmail());
