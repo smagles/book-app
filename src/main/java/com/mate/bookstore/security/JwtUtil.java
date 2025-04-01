@@ -1,8 +1,13 @@
 package com.mate.bookstore.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -43,10 +48,16 @@ public class JwtUtil {
     }
 
     private <T> T getClaim(String token, Function<Claims, T> claimsFunction) {
-        final Claims claims = Jwts.parser()
-                .setSigningKey(secret)
-                .build()
-                .parseClaimsJws(token).getBody();
-        return claimsFunction.apply(claims);
+        try {
+            final Claims claims = Jwts.parser()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token).getBody();
+            return claimsFunction.apply(claims);
+        } catch (ExpiredJwtException | UnsupportedJwtException
+                 | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            throw new JwtException("Invalid JWT token: " + e.getMessage(), e);
+        }
     }
 }
+
