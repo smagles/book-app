@@ -1,9 +1,9 @@
 package com.mate.bookstore.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 
 public record UserLoginRequestDto(
-        @NotEmpty @Email String email,
-        @NotEmpty String password) {
+        @NotBlank @Email String email,
+        @NotBlank String password) {
 }

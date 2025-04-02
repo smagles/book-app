@@ -1,5 +1,10 @@
 package com.mate.bookstore.security;
 
+import static com.mate.bookstore.exception.message.JwtExceptionMessages.INVALID_TOKEN;
+import static com.mate.bookstore.exception.message.JwtExceptionMessages.INVALID_TOKEN_FORMAT;
+import static com.mate.bookstore.exception.message.JwtExceptionMessages.TOKEN_EXPIRED;
+import static com.mate.bookstore.exception.message.JwtExceptionMessages.TOKEN_VALIDATION_FAILED;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -13,10 +18,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Log4j2
 public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
@@ -52,11 +59,17 @@ public class JwtUtil {
             final Claims claims = Jwts.parser()
                     .setSigningKey(secret)
                     .build()
-                    .parseClaimsJws(token).getBody();
+                    .parseSignedClaims(token)
+                    .getPayload();
             return claimsFunction.apply(claims);
-        } catch (ExpiredJwtException | UnsupportedJwtException
-                 | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new JwtException("Invalid JWT token: " + e.getMessage(), e);
+        } catch (ExpiredJwtException e) {
+            throw new JwtException(TOKEN_EXPIRED);
+        } catch (UnsupportedJwtException | MalformedJwtException e) {
+            throw new JwtException(INVALID_TOKEN_FORMAT);
+        } catch (SignatureException e) {
+            throw new JwtException(TOKEN_VALIDATION_FAILED);
+        } catch (IllegalArgumentException e) {
+            throw new JwtException(INVALID_TOKEN);
         }
     }
 }
