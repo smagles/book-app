@@ -1,10 +1,11 @@
 package com.mate.bookstore.controller;
 
-import com.mate.bookstore.dto.BookDto;
-import com.mate.bookstore.dto.BookSearchParametersDto;
-import com.mate.bookstore.dto.CreateBookRequestDto;
-import com.mate.bookstore.dto.UpdateBookRequestDto;
-import com.mate.bookstore.service.BookService;
+import com.mate.bookstore.controller.openapi.BookApi;
+import com.mate.bookstore.dto.book.BookDto;
+import com.mate.bookstore.dto.book.BookSearchParametersDto;
+import com.mate.bookstore.dto.book.CreateBookRequestDto;
+import com.mate.bookstore.dto.book.UpdateBookRequestDto;
+import com.mate.bookstore.service.book.BookService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -70,4 +71,5 @@ public class BookController implements BookApi {
                                      @PageableDefault(page = 0, size = 10) Pageable pageable) {
         return bookService.searchBooks(searchParameters, pageable);
     }
+
 }

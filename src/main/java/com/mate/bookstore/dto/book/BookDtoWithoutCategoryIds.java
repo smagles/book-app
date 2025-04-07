@@ -1,4 +1,4 @@
-package com.mate.bookstore.dto;
+package com.mate.bookstore.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,11 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDto {
+public class BookDtoWithoutCategoryIds {
     @NotNull(message = "ID is required")
     private Long id;
 

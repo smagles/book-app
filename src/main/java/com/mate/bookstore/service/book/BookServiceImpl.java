@@ -1,9 +1,10 @@
-package com.mate.bookstore.service;
+package com.mate.bookstore.service.book;
 
-import com.mate.bookstore.dto.BookDto;
-import com.mate.bookstore.dto.BookSearchParametersDto;
-import com.mate.bookstore.dto.CreateBookRequestDto;
-import com.mate.bookstore.dto.UpdateBookRequestDto;
+import com.mate.bookstore.dto.book.BookDto;
+import com.mate.bookstore.dto.book.BookDtoWithoutCategoryIds;
+import com.mate.bookstore.dto.book.BookSearchParametersDto;
+import com.mate.bookstore.dto.book.CreateBookRequestDto;
+import com.mate.bookstore.dto.book.UpdateBookRequestDto;
 import com.mate.bookstore.exception.DuplicateIsbnException;
 import com.mate.bookstore.exception.EntityNotFoundException;
 import com.mate.bookstore.mapper.BookMapper;
@@ -28,8 +29,10 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
         validateIsbn(createBookRequestDto.isbn());
+
         Book book = bookMapper.toModel(createBookRequestDto);
         book = bookRepository.save(book);
+
         return bookMapper.toBookDto(book);
     }
 
@@ -73,6 +76,13 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    @Override
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(categoryId, pageable)
+                .stream().map(bookMapper::toDtoWithoutCategories)
+                .toList();
+    }
+
     private Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Book not found with id " + id));
@@ -89,4 +99,5 @@ public class BookServiceImpl implements BookService {
             throw new DuplicateIsbnException();
         }
     }
+
 }

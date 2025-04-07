@@ -1,9 +1,9 @@
-package com.mate.bookstore.controller;
+package com.mate.bookstore.controller.openapi;
 
-import com.mate.bookstore.dto.BookDto;
-import com.mate.bookstore.dto.BookSearchParametersDto;
-import com.mate.bookstore.dto.CreateBookRequestDto;
-import com.mate.bookstore.dto.UpdateBookRequestDto;
+import com.mate.bookstore.dto.book.BookDto;
+import com.mate.bookstore.dto.book.BookSearchParametersDto;
+import com.mate.bookstore.dto.book.CreateBookRequestDto;
+import com.mate.bookstore.dto.book.UpdateBookRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

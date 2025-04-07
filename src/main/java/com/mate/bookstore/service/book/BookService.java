@@ -1,9 +1,10 @@
-package com.mate.bookstore.service;
+package com.mate.bookstore.service.book;
 
-import com.mate.bookstore.dto.BookDto;
-import com.mate.bookstore.dto.BookSearchParametersDto;
-import com.mate.bookstore.dto.CreateBookRequestDto;
-import com.mate.bookstore.dto.UpdateBookRequestDto;
+import com.mate.bookstore.dto.book.BookDto;
+import com.mate.bookstore.dto.book.BookDtoWithoutCategoryIds;
+import com.mate.bookstore.dto.book.BookSearchParametersDto;
+import com.mate.bookstore.dto.book.CreateBookRequestDto;
+import com.mate.bookstore.dto.book.UpdateBookRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +21,6 @@ public interface BookService {
 
     List<BookDto> searchBooks(BookSearchParametersDto searchParameters,
                               Pageable pageable);
+
+    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable);
 }
