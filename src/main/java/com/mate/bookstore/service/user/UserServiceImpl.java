@@ -1,7 +1,7 @@
-package com.mate.bookstore.service;
+package com.mate.bookstore.service.user;
 
-import com.mate.bookstore.dto.UserDto;
-import com.mate.bookstore.dto.UserRegistrationRequestDto;
+import com.mate.bookstore.dto.user.UserDto;
+import com.mate.bookstore.dto.user.UserRegistrationRequestDto;
 import com.mate.bookstore.exception.RegistrationException;
 import com.mate.bookstore.mapper.UserMapper;
 import com.mate.bookstore.model.User;

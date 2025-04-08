@@ -1,26 +1,29 @@
-package com.mate.bookstore.dto;
+package com.mate.bookstore.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDto {
+public class BookDtoWithoutCategoryIds {
     @NotNull(message = "ID is required")
     private Long id;
 
     @NotBlank(message = "Title is required")
+    @Size(min = 1, max = 255, message = "Title must be between 1 and 255 characters")
     private String title;
 
     @NotBlank(message = "Author is required")
+    @Size(min = 1, max = 255, message = "Author must be between 1 and 255 characters")
     private String author;
 
     @NotBlank(message = "ISBN is required")

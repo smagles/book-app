@@ -1,4 +1,4 @@
-package com.mate.bookstore.dto;
+package com.mate.bookstore.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
