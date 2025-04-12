@@ -1,4 +1,4 @@
-package com.mate.bookstore.service.shopingcart;
+package com.mate.bookstore.service.shoppingcart;
 
 import com.mate.bookstore.dto.shoppingcart.AddToCartRequestDto;
 import com.mate.bookstore.dto.shoppingcart.ShoppingCartDto;

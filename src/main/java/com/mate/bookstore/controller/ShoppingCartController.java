@@ -4,7 +4,7 @@ import com.mate.bookstore.dto.shoppingcart.AddToCartRequestDto;
 import com.mate.bookstore.dto.shoppingcart.ShoppingCartDto;
 import com.mate.bookstore.dto.shoppingcart.UpdateCartItemRequestDto;
 import com.mate.bookstore.model.User;
-import com.mate.bookstore.service.shopingcart.ShoppingCartService;
+import com.mate.bookstore.service.shoppingcart.ShoppingCartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

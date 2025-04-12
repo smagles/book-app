@@ -1,4 +1,4 @@
-package com.mate.bookstore.service.shopingcart;
+package com.mate.bookstore.service.shoppingcart;
 
 import com.mate.bookstore.dto.shoppingcart.AddToCartRequestDto;
 import com.mate.bookstore.dto.shoppingcart.ShoppingCartDto;
@@ -8,7 +8,7 @@ import com.mate.bookstore.mapper.ShoppingCartMapper;
 import com.mate.bookstore.model.CartItem;
 import com.mate.bookstore.model.ShoppingCart;
 import com.mate.bookstore.model.User;
-import com.mate.bookstore.repository.shopingcart.ShoppingCartRepository;
+import com.mate.bookstore.repository.shoppingcart.ShoppingCartRepository;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +52,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Transactional
     public ShoppingCartDto updateBookQuantity(Long cartItemId, User user,
                                               UpdateCartItemRequestDto updateCartItemRequestDto) {
-        CartItem cartItem = cartItemService.getCartItem(cartItemId);
-        cartItem = cartItemService
-                .updateCartItem(cartItem, user, updateCartItemRequestDto.quantity());
+        CartItem cartItem = cartItemService
+                .updateCartItem(cartItemId, user, updateCartItemRequestDto.quantity());
 
         return shoppingCartMapper.toDto(cartItem.getShoppingCart());
     }
