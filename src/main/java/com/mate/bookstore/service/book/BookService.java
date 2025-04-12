@@ -5,6 +5,7 @@ import com.mate.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.mate.bookstore.dto.book.BookSearchParametersDto;
 import com.mate.bookstore.dto.book.CreateBookRequestDto;
 import com.mate.bookstore.dto.book.UpdateBookRequestDto;
+import com.mate.bookstore.model.Book;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 
@@ -23,4 +24,6 @@ public interface BookService {
                               Pageable pageable);
 
     List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable);
+
+    Book getBookById(Long id);
 }

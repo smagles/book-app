@@ -83,7 +83,8 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
-    private Book getBookById(Long id) {
+    @Override
+    public Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Book not found with id " + id));
     }

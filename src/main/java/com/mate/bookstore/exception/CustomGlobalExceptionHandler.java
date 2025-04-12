@@ -1,6 +1,7 @@
 package com.mate.bookstore.exception;
 
 import io.jsonwebtoken.JwtException;
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler({JwtException.class})
     public ResponseEntity<Object> handleJwtException(JwtException ex) {
         return buildResponseEntity(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<Object> handleJwtException(AccessDeniedException ex) {
+        return buildResponseEntity(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class})
