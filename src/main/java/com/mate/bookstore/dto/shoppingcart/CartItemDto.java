@@ -19,7 +19,7 @@ public class CartItemDto {
     private Long bookId;
     @NotBlank(message = "Book title is required")
     private String bookTitle;
-    @Min(1)
+    @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
 
 }
