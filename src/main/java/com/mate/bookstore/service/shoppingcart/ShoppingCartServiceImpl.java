@@ -9,6 +9,7 @@ import com.mate.bookstore.model.CartItem;
 import com.mate.bookstore.model.ShoppingCart;
 import com.mate.bookstore.model.User;
 import com.mate.bookstore.repository.shoppingcart.ShoppingCartRepository;
+import com.mate.bookstore.service.shoppingcart.item.CartItemService;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;

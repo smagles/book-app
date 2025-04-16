@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,8 +54,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findAll(User user) {
-        return orderRepository.findByUser(user).stream()
+    public List<OrderDto> findAll(User user, Pageable pageable) {
+        return orderRepository.findByUser(user, pageable).stream()
                 .map(orderMapper::toOrderDto)
                 .toList();
     }

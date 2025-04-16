@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +27,8 @@ public interface OrderApi {
     @Operation(summary = "Get all orders for the authenticated user")
     @ApiResponse(responseCode = "200", description = "List of orders returned successfully")
     @GetMapping
-    List<OrderDto> getOrders(@Parameter(hidden = true) @AuthenticationPrincipal User user);
+    List<OrderDto> getOrders(@Parameter(hidden = true) @AuthenticationPrincipal User user,
+                             @Parameter(description = "Pagination info") Pageable pageable);
 
     @Operation(summary = "Create a new order from the shopping cart")
     @ApiResponses({

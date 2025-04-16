@@ -52,11 +52,13 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     private BigDecimal calculateItemTotal(Book book, int quantity) {
+        if (book == null || book.getPrice() == null) {
+            throw new IllegalArgumentException("Book or price cannot be null");
+        }
         return book.getPrice().multiply(new BigDecimal(quantity));
     }
 
     private OrderItem findOrderItemFromOrder(Order order, Long orderItemId) {
-        findById(orderItemId);
         return order.getOrderItems().stream()
                 .filter(item -> item.getId().equals(orderItemId))
                 .findFirst()
@@ -64,12 +66,4 @@ public class OrderItemServiceImpl implements OrderItemService {
                         -> new EntityNotFoundException(
                         "Order item does not belong to the order"));
     }
-
-    private OrderItem findById(Long orderItemId) {
-        return orderItemRepository.findById(orderItemId)
-                .orElseThrow(()
-                        -> new EntityNotFoundException("Order item not found with id: "
-                        + orderItemId));
-    }
-
 }

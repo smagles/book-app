@@ -1,4 +1,4 @@
-package com.mate.bookstore.service.shoppingcart;
+package com.mate.bookstore.service.shoppingcart.item;
 
 import com.mate.bookstore.model.CartItem;
 import com.mate.bookstore.model.ShoppingCart;

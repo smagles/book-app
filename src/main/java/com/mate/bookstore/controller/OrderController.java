@@ -9,6 +9,8 @@ import com.mate.bookstore.model.User;
 import com.mate.bookstore.service.order.OrderService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,8 +31,9 @@ public class OrderController implements OrderApi {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<OrderDto> getOrders(@AuthenticationPrincipal User user) {
-        return orderService.findAll(user);
+    public List<OrderDto> getOrders(@AuthenticationPrincipal User user,
+                                    @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return orderService.findAll(user, pageable);
 
     }
 
