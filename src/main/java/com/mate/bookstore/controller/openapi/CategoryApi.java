@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -33,7 +33,7 @@ public interface CategoryApi {
     @ApiResponse(responseCode = "200", description = "Categories retrieved successfully",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class))))
-    List<CategoryDto> getAll(@Parameter(description = "Pagination info") Pageable pageable);
+    Page<CategoryDto> getAll(@Parameter(description = "Pagination info") Pageable pageable);
 
     @Operation(summary = "Get category by ID", description = "Returns category details by ID")
     @ApiResponse(responseCode = "200", description = "Category found",
@@ -65,7 +65,7 @@ public interface CategoryApi {
                     array = @ArraySchema(
                             schema = @Schema(implementation = BookDtoWithoutCategoryIds.class))))
     @ApiResponse(responseCode = "404", description = "Category not found")
-    List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
+    Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(
             @Parameter(description = "ID of the category") @PathVariable Long id,
             @Parameter(description = "Pagination info") Pageable pageable);
 }

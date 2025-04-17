@@ -7,8 +7,10 @@ import com.mate.bookstore.dto.order.OrderItemDto;
 import com.mate.bookstore.dto.order.UpdateOrderStatusRequestDto;
 import com.mate.bookstore.model.User;
 import com.mate.bookstore.service.order.OrderService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ public class OrderController implements OrderApi {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<OrderDto> getOrders(@AuthenticationPrincipal User user,
+    public Page<OrderDto> getOrders(@AuthenticationPrincipal User user,
                                     @PageableDefault(page = 0, size = 10) Pageable pageable) {
         return orderService.findAll(user, pageable);
 
@@ -39,7 +41,7 @@ public class OrderController implements OrderApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createOrder(@RequestBody CreateOrderRequestDto requestDto,
+    public OrderDto createOrder(@RequestBody @Valid CreateOrderRequestDto requestDto,
                                 @AuthenticationPrincipal User user) {
         return orderService.createOrder(requestDto, user);
     }
@@ -48,7 +50,7 @@ public class OrderController implements OrderApi {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public OrderDto updateOrderStatus(@PathVariable Long id,
-                                      @RequestBody UpdateOrderStatusRequestDto requestDto) {
+                                      @RequestBody @Valid UpdateOrderStatusRequestDto requestDto) {
         return orderService.updateOrderStatus(id, requestDto);
     }
 

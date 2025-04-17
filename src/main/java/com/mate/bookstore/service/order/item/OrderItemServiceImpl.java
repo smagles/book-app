@@ -44,8 +44,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     private OrderItem convertCartItemToOrderItem(CartItem cartItem, Order order) {
-        bookService.getBookById(cartItem.getBook().getId());
-
+        validateBookExists(cartItem);
         BigDecimal total = calculateItemTotal(cartItem.getBook(),
                 cartItem.getQuantity());
         return orderItemMapper.toOrderItem(cartItem, order, total);
@@ -65,5 +64,13 @@ public class OrderItemServiceImpl implements OrderItemService {
                 .orElseThrow(()
                         -> new EntityNotFoundException(
                         "Order item does not belong to the order"));
+    }
+
+    private void validateBookExists(CartItem cartItem) {
+        if (cartItem.getBook() == null || cartItem.getBook().getId() == null) {
+            throw new IllegalArgumentException(
+                    "Book in cart item must not be null and must have an ID");
+        }
+        bookService.getBookById(cartItem.getBook().getId());
     }
 }

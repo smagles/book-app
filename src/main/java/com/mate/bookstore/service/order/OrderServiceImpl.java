@@ -10,6 +10,7 @@ import com.mate.bookstore.mapper.OrderMapper;
 import com.mate.bookstore.model.CartItem;
 import com.mate.bookstore.model.Order;
 import com.mate.bookstore.model.OrderItem;
+import com.mate.bookstore.model.OrderStatus;
 import com.mate.bookstore.model.ShoppingCart;
 import com.mate.bookstore.model.User;
 import com.mate.bookstore.repository.order.OrderRepository;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -54,10 +56,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findAll(User user, Pageable pageable) {
-        return orderRepository.findByUser(user, pageable).stream()
-                .map(orderMapper::toOrderDto)
-                .toList();
+    public Page<OrderDto> findAll(User user, Pageable pageable) {
+        return orderRepository.findByUser(user, pageable)
+                .map(orderMapper::toOrderDto);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDto updateOrderStatus(Long id, UpdateOrderStatusRequestDto requestDto) {
         Order order = findOrderById(id);
-        order.setStatus(requestDto.status());
+        order.setStatus(OrderStatus.valueOf(requestDto.status()));
         return orderMapper.toOrderDto(orderRepository.save(order));
     }
 

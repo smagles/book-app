@@ -6,12 +6,13 @@ import com.mate.bookstore.dto.order.OrderItemDto;
 import com.mate.bookstore.dto.order.UpdateOrderStatusRequestDto;
 import com.mate.bookstore.model.User;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
     OrderDto createOrder(CreateOrderRequestDto createOrderRequestDto, User user);
 
-    List<OrderDto> findAll(User user, Pageable pageable);
+    Page<OrderDto> findAll(User user, Pageable pageable);
 
     OrderDto updateOrderStatus(Long id, UpdateOrderStatusRequestDto updateOrderStatusRequestDto);
 

@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
 public interface OrderItemMapper {
 
     @Mapping(target = "id", ignore = true)
-    OrderItem toOrderItem(CartItem orderItem, Order order, BigDecimal price);
+    OrderItem toOrderItem(CartItem cartItem, Order order, BigDecimal price);
 
     @Mapping(target = "bookId", source = "book.id")
     OrderItemDto toOrderItemDto(OrderItem orderItem);
