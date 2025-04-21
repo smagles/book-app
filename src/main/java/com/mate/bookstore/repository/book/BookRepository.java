@@ -1,7 +1,6 @@
 package com.mate.bookstore.repository.book;
 
 import com.mate.bookstore.model.Book;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +11,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface BookRepository extends JpaRepository<Book, Long>,
         JpaSpecificationExecutor<Book> {
-    List<Book> findAll();
-
     Optional<Book> findById(Long id);
 
     Book save(Book book);
