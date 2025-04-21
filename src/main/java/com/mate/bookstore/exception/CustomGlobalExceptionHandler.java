@@ -37,6 +37,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(responseBody, headers, status);
     }
 
+    @ExceptionHandler({ShoppingCartEmptyException.class})
+    public ResponseEntity<Object> handleBadRequestException(RuntimeException ex) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler({JwtException.class})
     public ResponseEntity<Object> handleJwtException(JwtException ex) {
         return buildResponseEntity(HttpStatus.UNAUTHORIZED, ex.getMessage());

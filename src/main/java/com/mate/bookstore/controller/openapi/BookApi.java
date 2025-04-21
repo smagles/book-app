@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +21,7 @@ public interface BookApi {
 
     @Operation(summary = "Get all books", description = "Returns a paginated list of books")
     @ApiResponse(responseCode = "200", description = "Books retrieved successfully")
-    List<BookDto> getAll(@Parameter(description = "Pagination information") Pageable pageable);
+    Page<BookDto> getAll(@Parameter(description = "Pagination information") Pageable pageable);
 
     @Operation(summary = "Get a book by ID", description = "Returns a book by its ID")
     @ApiResponse(responseCode = "200", description = "Book found",
@@ -56,7 +56,7 @@ public interface BookApi {
     @ApiResponse(responseCode = "200", description = "Books found",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = BookDto.class)))
-    List<BookDto> searchBooks(@Parameter(description = "Search parameters")
+    Page<BookDto> searchBooks(@Parameter(description = "Search parameters")
                               BookSearchParametersDto searchParameters,
                               @Parameter(description = "Pagination information") Pageable pageable);
 }

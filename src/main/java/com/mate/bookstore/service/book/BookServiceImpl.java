@@ -11,8 +11,8 @@ import com.mate.bookstore.mapper.BookMapper;
 import com.mate.bookstore.model.Book;
 import com.mate.bookstore.repository.book.BookRepository;
 import com.mate.bookstore.repository.book.BookSpecificationBuilder;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -37,10 +37,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).stream()
-                .map(bookMapper::toBookDto)
-                .toList();
+    public Page<BookDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(bookMapper::toBookDto);
     }
 
     @Override
@@ -65,22 +64,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters,
+    public Page<BookDto> searchBooks(BookSearchParametersDto searchParameters,
                                      Pageable pageable) {
         validateSearchParameters(searchParameters);
 
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(searchParameters);
         return bookRepository.findAll(bookSpecification, pageable)
-                .stream()
-                .map(bookMapper::toBookDto)
-                .toList();
+                .map(bookMapper::toBookDto);
     }
 
     @Override
-    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
         return bookRepository.findAllByCategoryId(categoryId, pageable)
-                .stream().map(bookMapper::toDtoWithoutCategories)
-                .toList();
+                .map(bookMapper::toDtoWithoutCategories);
     }
 
     @Override

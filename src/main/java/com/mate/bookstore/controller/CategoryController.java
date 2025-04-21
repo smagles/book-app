@@ -8,8 +8,8 @@ import com.mate.bookstore.dto.category.UpdateCategoryRequestDto;
 import com.mate.bookstore.service.book.BookService;
 import com.mate.bookstore.service.category.CategoryService;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -41,7 +41,7 @@ public class CategoryController implements CategoryApi {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<CategoryDto> getAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public Page<CategoryDto> getAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
@@ -67,7 +67,7 @@ public class CategoryController implements CategoryApi {
     }
 
     @GetMapping("/{id}/books")
-    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
+    public Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(
             @PathVariable Long id, @PageableDefault(page = 0, size = 10,
             sort = "title", direction = Sort.Direction.ASC) Pageable pageable) {
         return bookService.findAllByCategoryId(id, pageable);

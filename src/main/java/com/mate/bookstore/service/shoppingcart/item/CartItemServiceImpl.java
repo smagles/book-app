@@ -1,4 +1,4 @@
-package com.mate.bookstore.service.shoppingcart;
+package com.mate.bookstore.service.shoppingcart.item;
 
 import com.mate.bookstore.exception.EntityNotFoundException;
 import com.mate.bookstore.model.Book;
@@ -8,6 +8,7 @@ import com.mate.bookstore.model.User;
 import com.mate.bookstore.repository.shoppingcart.CartItemRepository;
 import com.mate.bookstore.service.book.BookService;
 import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,11 @@ public class CartItemServiceImpl implements CartItemService {
         if (cartItemExists.isPresent()) {
             return updateCartItem(cartItemExists.get().getId(), shoppingCart.getUser(), quantity);
         }
-
         CartItem cartItem = new CartItem();
         cartItem.setBook(book);
         cartItem.setQuantity(quantity);
         cartItem.setShoppingCart(shoppingCart);
+
         return cartItemRepository.save(cartItem);
     }
 
@@ -44,6 +45,11 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public void deleteCartItem(Long id, User user) {
         cartItemRepository.delete(getValidatedCartItem(id, user));
+    }
+
+    @Override
+    public void deleteAllCartItems(Set<CartItem> cartItems) {
+        cartItemRepository.deleteAll(cartItems);
     }
 
     private CartItem findCartItemById(Long id) {

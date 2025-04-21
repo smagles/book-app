@@ -9,6 +9,7 @@ import com.mate.bookstore.model.CartItem;
 import com.mate.bookstore.model.ShoppingCart;
 import com.mate.bookstore.model.User;
 import com.mate.bookstore.repository.shoppingcart.ShoppingCartRepository;
+import com.mate.bookstore.service.shoppingcart.item.CartItemService;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDto getShoppingCart(User user) {
-        ShoppingCart shoppingCart = findShoppingCart(user);
-        if (shoppingCart == null) {
-            throw new EntityNotFoundException("Shopping cart not found");
-        }
+        ShoppingCart shoppingCart = findShoppingCartByUser(user);
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
@@ -61,12 +59,26 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public void deleteFromShoppingCart(Long cartItemId, User user) {
-        cartItemService.deleteCartItem(cartItemId, user);
+        cartItemService
+                .deleteCartItem(cartItemId, user);
+    }
+
+    public ShoppingCart findShoppingCartByUser(User user) {
+        ShoppingCart shoppingCart = findShoppingCart(user);
+        if (shoppingCart == null) {
+            throw new EntityNotFoundException("Shopping cart not found");
+        }
+        return shoppingCart;
     }
 
     private ShoppingCart findShoppingCart(User user) {
         return shoppingCartRepository.findByUserId(user.getId())
                 .orElse(null);
+    }
+
+    @Override
+    public void clearShoppingCart(ShoppingCart shoppingCart) {
+        cartItemService.deleteAllCartItems(shoppingCart.getCartItems());
     }
 
     private ShoppingCart createShoppingCart(User user) {
