@@ -1,15 +1,24 @@
 services:
-  mysql:
+  db:
     image: mysql:8.0
-    container_name: mysql_book_store
-    restart: always
-    environment:
-      MYSQL_DATABASE: book_store
-      MYSQL_ROOT_PASSWORD: root
+    restart: unless-stopped
+    env_file: ./.env
     ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
+      - ${MYSQL_LOCAL_PORT}:${MYSQL_DOCKER_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQLDB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQLDB_DATABASE}
 
-volumes:
-  mysql_data:
+  app:
+    depends_on:
+      - db
+    restart: on-failure
+    image: book-service
+    build: .
+    env_file: ./.env
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${MYSQLDB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
