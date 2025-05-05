@@ -82,8 +82,8 @@ class CategoryControllerTest {
         );
 
         CategoryDto expected = new CategoryDto();
-        expected.setName("Programming");
-        expected.setDescription("Programming languages");
+        expected.setName(validCreateRequest.name());
+        expected.setDescription(validCreateRequest.description());
 
         String jsonRequest = objectMapper.writeValueAsString(validCreateRequest);
 

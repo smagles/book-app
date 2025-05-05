@@ -24,8 +24,6 @@ import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -142,7 +140,7 @@ class BookControllerTest {
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
-    @DisplayName("Get category with non-existing ID should return 404 Not Found")
+    @DisplayName("Get book with non-existing ID should return 404 Not Found")
     void getBook_WithNonExistingId_ShouldThrowNotFoundException() throws Exception {
         // Given
         Long nonExistingId = 999L;
@@ -157,70 +155,23 @@ class BookControllerTest {
     @DisplayName("DELETE book should delete book by ID and return 204 No Content")
     void deleteBook_WithExistingId_ShouldReturnNoContent() throws Exception {
         // Given
-        Long existingCategoryId = 1L;
+        Long existingBookId = 1L;
 
         // When & Then
-        mockMvc.perform(delete("/api/books/{id}", existingCategoryId))
+        mockMvc.perform(delete("/api/books/{id}", existingBookId))
                 .andExpect(status().isNoContent());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @DisplayName("Get category with non-existing ID should return 404 Not Found")
+    @DisplayName("Delete book with non-existing ID should return 404 Not Found")
     void deleteBook_WithNonExistingId_ShouldThrowNotFoundException() throws Exception {
         // Given
         Long nonExistingId = 999L;
 
         // When & Then
-        mockMvc.perform(get("/api/books/{id}", nonExistingId))
+        mockMvc.perform(delete("/api/books/{id}", nonExistingId))
                 .andExpect(status().isNotFound());
 
-    }
-
-    @WithMockUser(username = "user", roles = {"USER"})
-    @Test
-    @DisplayName("Get all books should return list of all books")
-    void getAll_GivenBooks_ShouldReturnAllBooks() throws Exception {
-        //Given
-        List<BookDto> expected = List.of(
-                BookDto.builder()
-                        .id(1L)
-                        .title("Effective Java")
-                        .author("Joshua Bloch")
-                        .isbn("978-0134685991")
-                        .price(new BigDecimal("45.99"))
-                        .description("Definitive guide to Java programming")
-                        .coverImage("effective_java.jpg")
-                        .build(),
-                BookDto.builder()
-                        .id(2L)
-                        .title("Clean Code")
-                        .author("Robert C. Martin")
-                        .isbn("978-0132350884")
-                        .price(new BigDecimal("39.99"))
-                        .description("Handbook of agile software craftsmanship")
-                        .coverImage("clean_code.jpg")
-                        .build(),
-                BookDto.builder()
-                        .id(3L)
-                        .title("Design Patterns")
-                        .author("Erich Gamma")
-                        .isbn("978-0201633610")
-                        .price(new BigDecimal("49.99"))
-                        .description("Elements of reusable object-oriented software")
-                        .coverImage("design_patterns.jpg")
-                        .build()
-        );
-
-        // When
-        MvcResult result = mockMvc.perform(
-                        get("/api/books")
-                                .contentType(MediaType.APPLICATION_JSON)
-
-
-                )
-                .andExpect(status().isOk())
-                .andReturn();
-        System.out.println(result.getResponse().getContentAsString());
     }
 }

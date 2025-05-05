@@ -164,8 +164,8 @@ class CategoryServiceTest {
 
         Category updatedCategory = new Category();
         updatedCategory.setId(categoryId);
-        updatedCategory.setName(updatedCategory.getName());
-        updatedCategory.setDescription(updatedCategory.getDescription());
+        updatedCategory.setName(updateRequest.name());
+        updatedCategory.setDescription(updateRequest.description());
 
         CategoryDto expectedDto = new CategoryDto();
         expectedDto.setId(categoryId);
