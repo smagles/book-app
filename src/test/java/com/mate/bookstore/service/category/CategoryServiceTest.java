@@ -145,6 +145,7 @@ class CategoryServiceTest {
         String expected = "Category not found with id: " + categoryId;
         String actual = entityNotFoundException.getMessage();
         assertThat(actual).isEqualTo(expected);
+        verify(categoryRepository).findById(categoryId);
 
     }
     @Test

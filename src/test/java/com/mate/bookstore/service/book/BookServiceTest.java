@@ -40,7 +40,6 @@ class BookServiceTest {
     @InjectMocks
     private BookServiceImpl bookService;
 
-
     private Book createTestBook() {
         return Book.builder()
                 .id(1L)
@@ -172,6 +171,8 @@ class BookServiceTest {
         String actual = entityNotFoundException.getMessage();
         assertThat(actual).isEqualTo(expected);
 
+        verify(bookRepository, times(1)).findById(bookId);
+        verifyNoMoreInteractions(bookRepository);
     }
 
     @Test
@@ -241,11 +242,13 @@ class BookServiceTest {
                 "updated_cover.jpg"
         );
 
+        // When
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
-        // When & Then
+        // Then
         assertThrows(EntityNotFoundException.class,
                 () -> bookService.update(bookId, updateRequest));
+
         verify(bookRepository).findById(bookId);
         verifyNoMoreInteractions(bookRepository, bookMapper);
     }
