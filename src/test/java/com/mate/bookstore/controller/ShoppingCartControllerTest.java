@@ -61,12 +61,12 @@ class ShoppingCartControllerTest {
     }
 
     @AfterEach
-    void afterEach() {
+    void afterEach() throws SQLException {
         teardown(dataSource);
     }
 
     @SneakyThrows
-    private static void teardown(DataSource datasource) {
+    private static void teardown(DataSource datasource) throws SQLException{
         try (Connection connection = datasource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
