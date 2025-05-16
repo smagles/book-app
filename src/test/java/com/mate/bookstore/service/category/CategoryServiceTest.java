@@ -131,7 +131,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("Verify the exception was thrown with non existing category id")
-    void get_ById_WithNonExistingCategory_ShouldThrowException() {
+    void getById_WithNonExistingCategory_ShouldThrowException() {
         // Given
         Long categoryId = 1L;
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
@@ -148,6 +148,7 @@ class CategoryServiceTest {
         verify(categoryRepository).findById(categoryId);
 
     }
+
     @Test
     @DisplayName("Verify update() works with valid data")
     void update_ValidRequest_ReturnsUpdatedCategoryDto() {

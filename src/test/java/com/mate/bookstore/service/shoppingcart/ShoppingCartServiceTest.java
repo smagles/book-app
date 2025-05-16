@@ -169,4 +169,35 @@ class ShoppingCartServiceTest {
         verify(cartItemService).deleteCartItem(cartItemId, testUser);
         verifyNoMoreInteractions(cartItemService);
     }
+
+    @Test
+    @DisplayName("Clear shopping cart removes all cart items")
+    void clearShoppingCart_WithValidCart_ClearsAllItems() {
+        // Given
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setId(1L);
+        shoppingCart.setUser(testUser);
+
+        CartItem cartItem1 = new CartItem();
+        cartItem1.setId(1L);
+        cartItem1.setBook(testBook);
+        cartItem1.setQuantity(2);
+        cartItem1.setShoppingCart(shoppingCart);
+
+        CartItem cartItem2 = new CartItem();
+        cartItem2.setId(2L);
+        cartItem2.setBook(testBook);
+        cartItem2.setQuantity(1);
+        cartItem2.setShoppingCart(shoppingCart);
+
+        Set<CartItem> cartItems = new HashSet<>(Set.of(cartItem1, cartItem2));
+        shoppingCart.setCartItems(cartItems);
+
+        // When
+        shoppingCartService.clearShoppingCart(shoppingCart);
+
+        // Then
+        verify(cartItemService, times(1)).deleteAllCartItems(cartItems);
+        verifyNoMoreInteractions(cartItemService);
+    }
 }
