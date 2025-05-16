@@ -37,6 +37,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (shoppingCart == null) {
             shoppingCart = createShoppingCart(user);
         }
+
         CartItem cartItem = cartItemService.createCartItem(addToCartRequestDto.bookId(),
                 addToCartRequestDto.quantity(), shoppingCart);
         Set<CartItem> cartItems = shoppingCart.getCartItems();
@@ -59,10 +60,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public void deleteFromShoppingCart(Long cartItemId, User user) {
-        cartItemService
-                .deleteCartItem(cartItemId, user);
+        cartItemService.deleteCartItem(cartItemId, user);
     }
 
+    @Override
     public ShoppingCart findShoppingCartByUser(User user) {
         ShoppingCart shoppingCart = findShoppingCart(user);
         if (shoppingCart == null) {
