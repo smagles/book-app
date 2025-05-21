@@ -53,7 +53,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return buildResponseEntity(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
-    @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class,
+            UsernameNotFoundException.class})
     public ResponseEntity<Object> handleEntityNotFoundException(RuntimeException ex) {
         return buildResponseEntity(HttpStatus.NOT_FOUND, ex.getMessage());
     }
