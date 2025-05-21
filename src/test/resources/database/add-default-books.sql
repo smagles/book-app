@@ -1,4 +1,3 @@
--- Вставка 3 тестовых книг
 INSERT INTO books (title, author, isbn, price, description, cover_image, is_deleted)
 VALUES ('Effective Java', 'Joshua Bloch', '978-0134685991', 45.99, 'Definitive guide to Java programming',
         'effective_java.jpg', false),

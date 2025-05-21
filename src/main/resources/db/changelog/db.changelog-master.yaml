@@ -23,3 +23,9 @@ databaseChangeLog:
       file: db/changelog/changes/011-create-order-table.yaml
   - include:
       file: db/changelog/changes/012-create-order-item-table.yaml
+  - include:
+      file: db/changelog/changes/013-add-default-category.yaml
+  - include:
+      file: db/changelog/changes/014-add-default-books.yaml
+  - include:
+      file: db/changelog/changes/015-add-default-book-category.yaml

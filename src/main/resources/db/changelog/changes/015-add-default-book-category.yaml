@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: link-books-categories
+      author: olesia
+      changes:
+        - insert:
+            tableName: book_category
+            columns:
+              - column:
+                  name: book_id
+                  valueNumeric: 1
+              - column:
+                  name: category_id
+                  valueNumeric: 1
+
+        - insert:
+            tableName: book_category
+            columns:
+              - column:
+                  name: book_id
+                  valueNumeric: 2
+              - column:
+                  name: category_id
+                  valueNumeric: 1
+
+        - insert:
+            tableName: book_category
+            columns:
+              - column:
+                  name: book_id
+                  valueNumeric: 3
+              - column:
+                  name: category_id
+                  valueNumeric: 1

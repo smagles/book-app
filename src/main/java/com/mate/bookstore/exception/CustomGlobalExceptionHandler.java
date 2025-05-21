@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,7 +53,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return buildResponseEntity(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
-    @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class})
+    @ExceptionHandler({EntityNotFoundException.class, SpecificationNotFoundException.class, UsernameNotFoundException.class})
     public ResponseEntity<Object> handleEntityNotFoundException(RuntimeException ex) {
         return buildResponseEntity(HttpStatus.NOT_FOUND, ex.getMessage());
     }

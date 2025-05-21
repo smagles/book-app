@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-category
+      author: olesia
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: Programming
+              - column:
+                  name: description
+                  value: Books about software development and best practices

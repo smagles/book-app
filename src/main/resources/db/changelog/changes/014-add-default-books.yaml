@@ -1,0 +1,78 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-books
+      author: olesia
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: Effective Java
+              - column:
+                  name: author
+                  value: Joshua Bloch
+              - column:
+                  name: isbn
+                  value: 978-013468197
+              - column:
+                  name: price
+                  valueNumeric: 45.99
+              - column:
+                  name: description
+                  value: Definitive guide to Java programming
+              - column:
+                  name: cover_image
+                  value: effective_java.jpg
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: Clean Code
+              - column:
+                  name: author
+                  value: Robert C. Martin
+              - column:
+                  name: isbn
+                  value: 978-013235198
+              - column:
+                  name: price
+                  valueNumeric: 39.99
+              - column:
+                  name: description
+                  value: Handbook of agile software craftsmanship
+              - column:
+                  name: cover_image
+                  value: clean_code.jpg
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: Design Patterns
+              - column:
+                  name: author
+                  value: Erich Gamma
+              - column:
+                  name: isbn
+                  value: 978-0201633199
+              - column:
+                  name: price
+                  valueNumeric: 49.99
+              - column:
+                  name: description
+                  value: Elements of reusable object-oriented software
+              - column:
+                  name: cover_image
+                  value: design_patterns.jpg
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
