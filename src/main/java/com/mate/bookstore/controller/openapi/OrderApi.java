@@ -7,6 +7,10 @@ import com.mate.bookstore.dto.order.UpdateOrderStatusRequestDto;
 import com.mate.bookstore.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Tag(name = "Order API", description = "Operations related to user orders")
@@ -38,6 +41,24 @@ public interface OrderApi {
             @ApiResponse(responseCode = "404", description = "Shopping cart not found")
     })
     @PostMapping
+    @RequestBody(
+            description = "Order creation data",
+            required = true,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = CreateOrderRequestDto.class),
+                    examples = @ExampleObject(
+                            name = "CreateOrderRequest",
+                            summary = "Typical order creation request",
+                            value = """
+                                    {
+                                      "shippingAddress": "123 Main St, City, Country"
+                                      }
+                                    """
+
+                    )
+            )
+    )
     OrderDto createOrder(
             @RequestBody CreateOrderRequestDto requestDto,
             @Parameter(hidden = true) @AuthenticationPrincipal User user);
