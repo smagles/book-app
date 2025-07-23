@@ -48,6 +48,12 @@ git clone https://github.com/smagles/book-app
 ./mvnw spring-boot:run
 
 ```
+
+### ⚙️ Default Port
+The app runs on port **8080** by default.
+
+You can change the port in `application.properties` 
+
 ## 🔍 API Documentation: Swagger UI (for testing): http://localhost:8080/swagger-ui/index.html
 
 ## 🧪 Testing the API with Postman
@@ -58,7 +64,7 @@ Once the application is running at `http://localhost:8080`, you can interact wit
 
 1. Open **Postman**
 2. Create a new **POST** request to:
-   `http://localhost:8080/api/auth/register`
+   `http://localhost:8080/api/auth/registration`
 4. In the **Body**, choose `raw` and set the format to `JSON`, then paste the following example:
 
 ```json
@@ -112,6 +118,7 @@ If the token is valid, you’ll receive a **200 OK** response with a paginated l
 ![getAll.png](images/getAll.png)
 
 ---
+
 ## ✨ Key Features
 
 ### 🔐 Authentication Controller
@@ -162,5 +169,21 @@ If the token is valid, you’ll receive a **200 OK** response with a paginated l
 
 ## 🎥 Video Demonstration
 
+In this video, I demonstrate how to:
+- Run the application locally
+- Register and authenticate a user
+- Interact with the Bookstore API using Postman
+
 [![Spring Boot Bookstore API Demo: JWT Auth, Cart & Orders](https://img.youtube.com/vi/5KSTog7OPjw/0.jpg)](https://www.youtube.com/watch?v=5KSTog7OPjw "Click to watch the demo")  
 *(Click the image above to play the video)*
+
+```mermaid
+flowchart TD
+    A[Client] -->|HTTP Request| B[API Controller]
+    B -->|DTO Validation| C[Service Layer]
+    C -->|JPA Calls| D[Repository]
+    D -->|SQL| E[(Database)]
+    E -->|ResultSet| D
+    D -->|Entity| C
+    C -->|Response Object| B
+    B -->|JSON| A
