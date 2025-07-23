@@ -159,3 +159,8 @@ If the token is valid, you’ll receive a **200 OK** response with a paginated l
 | `PUT`    | `/api/categories/{id}`       | Update a category              | Admin only    |
 | `DELETE` | `/api/categories/{id}`       | Delete a category              | Admin only    |
 | `GET`    | `/api/categories/{id}/books` | Get all books by category      | Authenticated |
+
+## 🎥 Video Demonstration
+
+[![Spring Boot Bookstore API Demo: JWT Auth, Cart & Orders](https://img.youtube.com/vi/5KSTog7OPjw/0.jpg)](https://www.youtube.com/watch?v=5KSTog7OPjw "Click to watch the demo")  
+*(Click the image above to play the video)*
